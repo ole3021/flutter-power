@@ -3,54 +3,30 @@ import 'package:flutter/material.dart';
 import './products.dart';
 import './products_control.dart';
 
-class ProductsManager extends StatefulWidget {
-  final Map<String, String> initProducts;
+class ProductsManager extends StatelessWidget {
+  final List<Map<String, String>> products;
+  final Function addProduct;
+  final Function deleteProduct;
 
-  ProductsManager({this.initProducts}) {
+  ProductsManager({this.products, this.addProduct, this.deleteProduct}) {
     print('>>> [Products Manager] - Constructor');
   }
 
-  @override
-  State<StatefulWidget> createState() {
-    print('>>> [Products Manager] - createState ');
-    return _ProductsStatus();
-  }
-}
+  // @override
+  // void initState() {
+  //   if (widget.initProducts != null) {
+  //     print('>>> [Products Manager State] - initState');
+  //     _products.add(widget.initProducts);
+  //   }
 
-class _ProductsStatus extends State<ProductsManager> {
-  final List<Map<String, String>> _products = [];
+  //   super.initState();
+  // }
 
-  @override
-  void initState() {
-    if (widget.initProducts != null) {
-      print('>>> [Products Manager State] - initState');
-      _products.add(widget.initProducts);
-    }
-
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(ProductsManager oldWidget) {
-    print('>>> [Products Manager State] - didUpdate');
-    super.didUpdateWidget(oldWidget);
-  }
-
-  void _addProduct(Map<String, String> product) {
-    setState(() {
-      _products.add(product);
-      print('>>> [Products Manager Stat] Updated Products');
-      print(_products);
-    });
-  }
-
-  void _deleteProduct(int index) {
-    setState(() {
-      _products.removeAt(index);
-      print('>>> [Products Manager Stat] Deleted Products');
-      print(_products);
-    });
-  }
+  // @override
+  // void didUpdateWidget(ProductsManager oldWidget) {
+  //   print('>>> [Products Manager State] - didUpdate');
+  //   super.didUpdateWidget(oldWidget);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +35,12 @@ class _ProductsStatus extends State<ProductsManager> {
       children: <Widget>[
         Container(
           margin: EdgeInsets.all(10.0),
-          child: ProductControl(_addProduct),
+          child: ProductControl(addProduct),
         ),
         Expanded(
             child: Products(
-          products: _products,
-          deleteProduct: _deleteProduct,
+          products: products,
+          deleteProduct: deleteProduct,
         ))
       ],
     );

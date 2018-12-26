@@ -1,36 +1,45 @@
 import 'package:flutter/material.dart';
 
 import './products.dart';
+import '../products_admin_create.dart';
+import '../products_admin_manage.dart';
 
 class ProductsAdminPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: Drawer(
-        child: Column(
-          children: <Widget>[
-            AppBar(
-              automaticallyImplyLeading: false,
-              title: Text('Choose'),
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+            drawer: Drawer(
+              child: Column(
+                children: <Widget>[
+                  AppBar(
+                    automaticallyImplyLeading: false,
+                    title: Text('Choose'),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.pushReplacementNamed(context, '/products');
+                    },
+                    title: Text('Products'),
+                  )
+                ],
+              ),
             ),
-            ListTile(
-              onTap: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => ProductsPage()));
-              },
-              title: Text('Products'),
-            )
-          ],
-        ),
-      ),
-      appBar: AppBar(
-        title: Text("Course APP"),
-      ),
-      body: Center(
-        child: Text('Admin Page'),
-      ),
-    );
+            appBar: AppBar(
+              title: Text("Course APP"),
+              bottom: TabBar(
+                tabs: <Widget>[
+                  Tab(
+                    icon: Icon(Icons.create),
+                    text: 'Create Product',
+                  ),
+                  Tab(icon: Icon(Icons.list), text: 'My Products'),
+                ],
+              ),
+            ),
+            body: TabBarView(
+              children: <Widget>[ProductAdminCreate(), ProductAdminManage()],
+            )));
   }
 }
