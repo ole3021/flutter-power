@@ -1,26 +1,56 @@
 import 'package:flutter/material.dart';
 
-class Products extends StatelessWidget {
-  final List<String> products;
+import './pages/product.dart';
 
-  Products([this.products = const []]) {
+class Products extends StatelessWidget {
+  final List<Map<String, String>> products;
+  final Function deleteProduct;
+
+  Products({this.products = const [], this.deleteProduct}) {
     print('>>> [Products Widget] - Constructor');
+  }
+
+  Widget _buildProductsItem(BuildContext context, int index) => Card(
+        child: Column(
+          children: <Widget>[
+            Image.asset(products[index]['imageUrl']),
+            Text(products[index]['title']),
+            ButtonBar(
+              alignment: MainAxisAlignment.end,
+              children: <Widget>[
+                FlatButton(
+                  child: Text('Read More'),
+                  color: Theme.of(context).secondaryHeaderColor,
+                  onPressed: () => Navigator.push<bool>(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => ProductPage(
+                                  title: products[index]['title'],
+                                  imageUrl: products[index]['imageUrl']))).then(
+                          (bool isDeleted) {
+                        if (isDeleted) {
+                          deleteProduct(index);
+                        }
+                      }),
+                )
+              ],
+            )
+          ],
+        ),
+      );
+
+  Widget _buildProductsList() {
+    return products.length > 0
+        ? ListView.builder(
+            itemBuilder: _buildProductsItem,
+            itemCount: products.length,
+          )
+        : Container();
   }
 
   @override
   Widget build(BuildContext context) {
     print('>>> [Products Widget] - build');
-    return Column(
-        children: this
-            .products
-            .map((name) => Card(
-                  child: Column(
-                    children: <Widget>[
-                      Image.asset('assets/food.jpg'),
-                      Text(name)
-                    ],
-                  ),
-                ))
-            .toList());
+    return _buildProductsList();
   }
 }

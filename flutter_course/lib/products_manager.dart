@@ -4,9 +4,9 @@ import './products.dart';
 import './products_control.dart';
 
 class ProductsManager extends StatefulWidget {
-  final String initProducts;
+  final Map<String, String> initProducts;
 
-  ProductsManager({this.initProducts = 'Default Food'}) {
+  ProductsManager({this.initProducts}) {
     print('>>> [Products Manager] - Constructor');
   }
 
@@ -18,12 +18,15 @@ class ProductsManager extends StatefulWidget {
 }
 
 class _ProductsStatus extends State<ProductsManager> {
-  final List<String> _products = [];
+  final List<Map<String, String>> _products = [];
 
   @override
   void initState() {
-    print('>>> [Products Manager State] - initState');
-    _products.add(widget.initProducts);
+    if (widget.initProducts != null) {
+      print('>>> [Products Manager State] - initState');
+      _products.add(widget.initProducts);
+    }
+
     super.initState();
   }
 
@@ -33,9 +36,19 @@ class _ProductsStatus extends State<ProductsManager> {
     super.didUpdateWidget(oldWidget);
   }
 
-  void _addProduct(String product) {
+  void _addProduct(Map<String, String> product) {
     setState(() {
       _products.add(product);
+      print('>>> [Products Manager Stat] Updated Products');
+      print(_products);
+    });
+  }
+
+  void _deleteProduct(int index) {
+    setState(() {
+      _products.removeAt(index);
+      print('>>> [Products Manager Stat] Deleted Products');
+      print(_products);
     });
   }
 
@@ -48,7 +61,11 @@ class _ProductsStatus extends State<ProductsManager> {
           margin: EdgeInsets.all(10.0),
           child: ProductControl(_addProduct),
         ),
-        Products(_products)
+        Expanded(
+            child: Products(
+          products: _products,
+          deleteProduct: _deleteProduct,
+        ))
       ],
     );
   }
