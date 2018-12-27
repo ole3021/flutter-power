@@ -21,7 +21,7 @@ class _ProductAdminCreateState extends State<ProductAdminCreate> {
   final TextEditingController _ctlPrice = TextEditingController();
   double _price = 0.0;
 
-  _addNewProduct(BuildContext context) {
+  void _addNewProduct(BuildContext context) {
     final Map<String, String> newProduct = {
       'title': _title,
       'imageUrl': 'assets/food.jpg',
@@ -43,7 +43,7 @@ class _ProductAdminCreateState extends State<ProductAdminCreate> {
     _showCreatedMessage(context);
   }
 
-  _showCreatedMessage(BuildContext content) {
+  void _showCreatedMessage(BuildContext content) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -62,52 +62,56 @@ class _ProductAdminCreateState extends State<ProductAdminCreate> {
         });
   }
 
+  List<Widget> _buildCreateForm() {
+    return [
+      TextField(
+        controller: _ctlTitle,
+        decoration: InputDecoration(labelText: 'Title'),
+        autofocus: true,
+        onChanged: (String value) {
+          setState(() {
+            _title = value;
+          });
+        },
+      ),
+      TextField(
+        controller: _ctlDescription,
+        decoration: InputDecoration(labelText: 'Description'),
+        maxLines: 4,
+        onChanged: (String value) {
+          setState(() {
+            _description = value;
+          });
+        },
+      ),
+      TextField(
+        controller: _ctlPrice,
+        decoration: InputDecoration(labelText: 'Price'),
+        keyboardType: TextInputType.number,
+        onChanged: (String value) {
+          setState(() {
+            _price = double.parse(value);
+          });
+        },
+      ),
+      SizedBox(
+        height: 50,
+      ),
+      RaisedButton(
+        color: Theme.of(context).accentColor,
+        textColor: Colors.white,
+        onPressed: () => _addNewProduct(context),
+        child: Text('Save'),
+      )
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.all(15),
         child: ListView(
-          children: <Widget>[
-            TextField(
-              controller: _ctlTitle,
-              decoration: InputDecoration(labelText: 'Title'),
-              autofocus: true,
-              onChanged: (String value) {
-                setState(() {
-                  _title = value;
-                });
-              },
-            ),
-            TextField(
-              controller: _ctlDescription,
-              decoration: InputDecoration(labelText: 'Description'),
-              maxLines: 4,
-              onChanged: (String value) {
-                setState(() {
-                  _description = value;
-                });
-              },
-            ),
-            TextField(
-              controller: _ctlPrice,
-              decoration: InputDecoration(labelText: 'Price'),
-              keyboardType: TextInputType.number,
-              onChanged: (String value) {
-                setState(() {
-                  _price = double.parse(value);
-                });
-              },
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            RaisedButton(
-              color: Theme.of(context).accentColor,
-              textColor: Colors.white,
-              onPressed: () => _addNewProduct(context),
-              child: Text('Save'),
-            )
-          ],
+          children: _buildCreateForm(),
         ));
   }
 }

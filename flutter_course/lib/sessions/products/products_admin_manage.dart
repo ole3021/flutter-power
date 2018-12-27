@@ -6,7 +6,7 @@ class ProductAdminManage extends StatelessWidget {
 
   ProductAdminManage({this.products, this.deleteProduct});
 
-  Widget _buildProductsItem(BuildContext context, int index) => Card(
+  Widget _builderOfProductsItem(BuildContext context, int index) => Card(
         child: Column(
           children: <Widget>[
             Image.asset(products[index]['imageUrl']),
@@ -25,16 +25,7 @@ class ProductAdminManage extends StatelessWidget {
         ),
       );
 
-  Widget _buildProductsList() {
-    return products.length > 0
-        ? ListView.builder(
-            itemBuilder: _buildProductsItem,
-            itemCount: products.length,
-          )
-        : Container();
-  }
-
-  _showWarningDialog(BuildContext context, int index) {
+  void _showWarningDialog(BuildContext context, int index) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -62,6 +53,11 @@ class ProductAdminManage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildProductsList();
+    return products.length > 0
+        ? ListView.builder(
+            itemBuilder: _builderOfProductsItem,
+            itemCount: products.length,
+          )
+        : Container();
   }
 }

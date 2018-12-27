@@ -12,6 +12,59 @@ class _AuthPageState extends State<AuthPage> {
   String _password = '';
   bool _isAccepted = true;
 
+  List<Widget> _buildLoginForm() {
+    return [
+      TextField(
+        decoration: InputDecoration(
+            labelText: 'Username',
+            filled: true,
+            fillColor: Colors.black.withOpacity(0.3)),
+        autofocus: true,
+        onChanged: (String value) {
+          setState(() {
+            _username = value;
+          });
+        },
+      ),
+      SizedBox(
+        height: 20,
+      ),
+      TextField(
+        decoration: InputDecoration(
+            labelText: 'Password',
+            filled: true,
+            fillColor: Colors.black.withOpacity(0.3)),
+        obscureText: true,
+        onChanged: (String value) {
+          setState(() {
+            _password = value;
+          });
+        },
+      ),
+      SwitchListTile(
+        value: _isAccepted,
+        onChanged: (bool isAccepted) {
+          setState(() {
+            _isAccepted = isAccepted;
+          });
+        },
+        title: Text('Accept Terms'),
+      ),
+      SizedBox(
+        height: 50,
+      ),
+      RaisedButton(
+        color: Theme.of(context).accentColor,
+        textColor: Colors.white,
+        onPressed: () => Navigator.pushReplacementNamed(context, '/products'),
+        child: Text('Log In'),
+      )
+    ];
+    // Column(
+    //   children: <Widget>,
+    // );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,54 +82,7 @@ class _AuthPageState extends State<AuthPage> {
             child: Center(
                 child: SingleChildScrollView(
               child: Column(
-                children: <Widget>[
-                  TextField(
-                    decoration: InputDecoration(
-                        labelText: 'Username',
-                        filled: true,
-                        fillColor: Colors.black.withOpacity(0.3)),
-                    autofocus: true,
-                    onChanged: (String value) {
-                      setState(() {
-                        _username = value;
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                        labelText: 'Password',
-                        filled: true,
-                        fillColor: Colors.black.withOpacity(0.3)),
-                    obscureText: true,
-                    onChanged: (String value) {
-                      setState(() {
-                        _password = value;
-                      });
-                    },
-                  ),
-                  SwitchListTile(
-                    value: _isAccepted,
-                    onChanged: (bool isAccepted) {
-                      setState(() {
-                        _isAccepted = isAccepted;
-                      });
-                    },
-                    title: Text('Accept Terms'),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  RaisedButton(
-                    color: Theme.of(context).accentColor,
-                    textColor: Colors.white,
-                    onPressed: () =>
-                        Navigator.pushReplacementNamed(context, '/products'),
-                    child: Text('Log In'),
-                  )
-                ],
+                children: _buildLoginForm(),
               ),
             ))));
   }
