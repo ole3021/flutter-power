@@ -26,6 +26,7 @@ class ProductsAdminPage extends StatelessWidget {
                     onTap: () {
                       Navigator.pushReplacementNamed(context, '/products');
                     },
+                    leading: Icon(Icons.shopping_basket),
                     title: Text('Products'),
                   )
                 ],

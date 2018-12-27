@@ -37,9 +37,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          brightness: Brightness.light,
-          primarySwatch: Colors.green,
-          accentColor: Colors.deepOrange),
+        brightness: Brightness.light,
+        primarySwatch: Colors.green,
+        accentColor: Colors.deepOrange,
+        fontFamily: 'Orbitron',
+      ),
+
       home: AuthPage(),
       // The / routes is not allowed to configed
       routes: {
