@@ -1,28 +1,29 @@
 import 'package:flutter/material.dart';
 
+import './products_admin_edit.dart';
+
 class ProductAdminManage extends StatelessWidget {
   final List<Map<String, String>> products;
+  final Function editProduct;
   final Function deleteProduct;
 
-  ProductAdminManage({this.products, this.deleteProduct});
+  ProductAdminManage({this.products, this.editProduct, this.deleteProduct});
 
-  Widget _builderOfProductsItem(BuildContext context, int index) => Card(
-        child: Column(
-          children: <Widget>[
-            Image.asset(products[index]['imageUrl']),
-            Text(products[index]['title']),
-            ButtonBar(
-              alignment: MainAxisAlignment.end,
-              children: <Widget>[
-                FlatButton(
-                  child: Text('Delete'),
-                  color: Theme.of(context).secondaryHeaderColor,
-                  onPressed: () => _showWarningDialog(context, index),
-                )
-              ],
-            )
-          ],
+  Widget _builderOfProductsItem(BuildContext context, int index) => ListTile(
+        leading: Image.asset(
+          products[index]['imageUrl'],
+          height: 50,
         ),
+        title: Text(products[index]['title']),
+        trailing: IconButton(
+            icon: Icon(Icons.edit),
+            color: Theme.of(context).accentColor,
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => ProductAdminEdit(
+                    index: index,
+                    product: products[index],
+                    editProduct: editProduct,
+                    deleteProduct: deleteProduct)))),
       );
 
   void _showWarningDialog(BuildContext context, int index) {

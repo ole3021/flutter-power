@@ -20,7 +20,15 @@ class _MyAppState extends State<MyApp> {
   void _addProduct(Map<String, String> product) {
     setState(() {
       _products.add(product);
-      print('>>> [Products Manager Stat] Updated Products');
+      print('>>> [Products Manager Stat] Updated Products - Add');
+      print(_products);
+    });
+  }
+
+  void _editProduct(int index, Map<String, String> product) {
+    setState(() {
+      _products[index] = product;
+      print('>>> [Products Manager Stat] Updated Products - Edit');
       print(_products);
     });
   }
@@ -54,6 +62,7 @@ class _MyAppState extends State<MyApp> {
         '/admin': (BuildContext context) => ProductsAdminPage(
               products: _products,
               addProduct: _addProduct,
+              editProduct: _editProduct,
               deleteProduct: _deleteProduct,
             )
       },
